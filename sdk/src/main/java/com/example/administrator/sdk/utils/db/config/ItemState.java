@@ -1,11 +1,10 @@
 package com.example.administrator.sdk.utils.db.config;
 
-/**
- * Created by Horrarndoo on 2017/9/13.
- * <p>
- * item状态全局常量
- */
 
+
+/**
+ * @author Administrator
+ */
 public class ItemState {
     /**
      * 已读状态

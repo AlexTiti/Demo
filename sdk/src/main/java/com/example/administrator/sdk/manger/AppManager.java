@@ -6,12 +6,11 @@ import android.content.Context;
 
 import java.util.Stack;
 
-/**
- * Created by Horrarndoo on 2017/4/5.
- * <p>
- * AppManager 管理Activity栈
- */
 
+
+/**
+ * @author Administrator
+ */
 public class AppManager {
     private static Stack<Activity> activityStack;
     private static AppManager instance;
@@ -34,7 +33,7 @@ public class AppManager {
      */
     public void addActivity(Activity activity) {
         if (activityStack == null) {
-            activityStack = new Stack<Activity>();
+            activityStack = new Stack<>();
         }
         activityStack.add(activity);
     }
@@ -62,7 +61,6 @@ public class AppManager {
         if (activity != null) {
             activityStack.remove(activity);
             activity.finish();
-            activity = null;
         }
     }
 
@@ -80,7 +78,7 @@ public class AppManager {
     /**
      * 结束所有Activity
      */
-    public void finishAllActivity() {
+    private void finishAllActivity() {
         for (int i = 0, size = activityStack.size(); i < size; i++) {
             if (null != activityStack.get(i)) {
                 activityStack.get(i).finish();
@@ -97,6 +95,7 @@ public class AppManager {
             finishAllActivity();
             ActivityManager activityMgr =
                     (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+            assert activityMgr != null;
             activityMgr.killBackgroundProcesses(context.getPackageName());
             System.exit(0);
         } catch (Exception e) {

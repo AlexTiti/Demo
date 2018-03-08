@@ -1,6 +1,8 @@
 package com.example.administrator.sdk.helps.okhttp;
 
 
+import android.support.annotation.NonNull;
+
 import com.example.administrator.sdk.utils.AppUtils;
 import com.example.administrator.sdk.utils.network.NetworkConnectionUtils;
 
@@ -15,10 +17,13 @@ import static com.example.administrator.sdk.helps.okhttp.HttpUtils.getUserAgent;
 
 
 
+/**
+ * @author Administrator
+ */
 public class CacheInterceptor implements Interceptor {
 
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
         if (NetworkConnectionUtils.isNetworkConnected(AppUtils.getContext())) {
             // 有网络时, 缓存1小时

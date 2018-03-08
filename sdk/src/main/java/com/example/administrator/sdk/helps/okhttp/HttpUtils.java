@@ -8,16 +8,13 @@ import com.example.administrator.sdk.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Horrarndoo on 2017/9/18.
- * <p>
- * HttpUtils 主要用于获取UserAgent
- */
 
+/**
+ * @author Administrator
+ */
 public class HttpUtils {
     /**
      * 获取UserAgent
@@ -26,7 +23,7 @@ public class HttpUtils {
      */
     @NonNull
     public static String getUserAgent() {
-        String userAgent = "";
+        String userAgent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             try {
                 userAgent = WebSettings.getDefaultUserAgent(AppUtils.getContext());
@@ -36,7 +33,7 @@ public class HttpUtils {
         } else {
             userAgent = System.getProperty("http.agent");
         }
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0, length = userAgent.length(); i < length; i++) {
             char c = userAgent.charAt(i);
             if (c <= '\u001f' || c >= '\u007f') {
@@ -54,14 +51,14 @@ public class HttpUtils {
     }
 
     public static String[] returnImageUrlsFromHtml(String html) {
-        List<String> imageSrcList = new ArrayList<String>();
+        List<String> imageSrcList = new ArrayList<>();
         Pattern p = Pattern.compile("<img\\b[^>]*\\bsrc\\b\\s*=\\s*('|\")?([^'\"\n\r\f>]+(\\" +
                 ".jpg|\\.bmp|\\.eps|\\.gif|\\.mif|\\.miff|\\.png|\\.tif|\\.tiff|\\.svg|\\.wmf|\\" +
                 ".jpe|\\.jpeg|\\.dib|\\.ico|\\.tga|\\.cut|\\.pic|\\b)\\b)[^>]*>", Pattern
                 .CASE_INSENSITIVE);
         Matcher m = p.matcher(html);
-        String quote = null;
-        String src = null;
+        String quote;
+        String src;
         while (m.find()) {
             quote = m.group(1);
             src = (quote == null || quote.trim().length() == 0) ? m.group(2).split("//s+")[0] : m

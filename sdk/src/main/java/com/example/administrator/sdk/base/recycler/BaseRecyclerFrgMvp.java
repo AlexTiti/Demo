@@ -1,4 +1,4 @@
-package com.example.administrator.sdk.base.recycler_base;
+package com.example.administrator.sdk.base.recycler;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

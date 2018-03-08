@@ -15,10 +15,10 @@ import android.os.Build;
 import java.io.IOException;
 import java.util.List;
 
+
 /**
- * Created by Horrarndoo on 2017/8/31.
- * <p>
- * Wifi连接工具类
+ * @author Administrator
+ *  Wifi连接工具类
  */
 public class NetworkConnectionUtils {
     private final static String TAG = "NetworkConnectionUtils";
@@ -37,7 +37,8 @@ public class NetworkConnectionUtils {
         WifiConfiguration wifiConfiguration = new WifiConfiguration();
         wifiConfiguration.SSID = "\"" + wifiSSID + "\"";
         wifiConfiguration.allowedKeyManagement.set(KeyMgmt.NONE);
-        wifiConfiguration.wepKeys[0] = "\"" + "\""; //小米手机MIUI7/华为EMUI4.1 需要webKey
+        //小米手机MIUI7/华为EMUI4.1 需要webKey
+        wifiConfiguration.wepKeys[0] = "\"" + "\"";
 
         int networkId = manager.addNetwork(wifiConfiguration);
 
@@ -131,21 +132,20 @@ public class NetworkConnectionUtils {
      * Ping
      * 用于确定手机是否已经连接上指定设备ip地址
      */
-    public static boolean pingTest(String IPOrDomainName) {
+    public static boolean pingTest(String iPOrDomainName) {
 
         boolean isSuccess = false;
         int status;
-        String result = "failed";
         Process p;
         try {
-            p = Runtime.getRuntime().exec("ping -c 1 " + IPOrDomainName);//
+            p = Runtime.getRuntime().exec("ping -c 1 " + iPOrDomainName);
             // m_strForNetAddress是输入的网址或者Ip地址
-            status = p.waitFor();// status 只能获取是否成功，无法获取更多的信息
+            // status 只能获取是否成功，无法获取更多的信息
+            status = p.waitFor();
             if (status == 0) {
-                result = "success";
                 isSuccess = true;
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException ignored) {
         }
         return isSuccess;
     }
@@ -179,7 +179,7 @@ public class NetworkConnectionUtils {
         if (context != null) {
             ConnectivityManager mConnectivityManager = (ConnectivityManager) context
                     .getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            NetworkInfo mNetworkInfo = mConnectivityManager != null ? mConnectivityManager.getActiveNetworkInfo() : null;
 
             if (mNetworkInfo != null) {
                 return mNetworkInfo.isAvailable();

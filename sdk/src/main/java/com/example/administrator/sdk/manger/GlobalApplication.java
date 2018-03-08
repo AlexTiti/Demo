@@ -5,22 +5,16 @@ import android.content.Context;
 import android.os.Handler;
 
 
-/**
- * Created by Horrarndoo on 2017/9/1.
- * <p>
- * 全局Application
- */
 
+/**
+ * @author Administrator
+ */
 public class GlobalApplication extends Application {
 
     protected static Context context;
     protected static Handler handler;
     protected static int mainThreadId;
-    private static GlobalApplication mApp;
 
-    public static synchronized GlobalApplication getInstance() {
-        return mApp;
-    }
 
     @Override
     public void onCreate() {

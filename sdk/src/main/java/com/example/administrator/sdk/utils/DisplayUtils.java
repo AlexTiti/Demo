@@ -23,10 +23,9 @@ import java.io.File;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 
+
 /**
- * Created by Horrarndoo on 2017/8/31.
- * <p>
- * 显示相关工具类
+ * @author Administrator
  */
 public class DisplayUtils {
     /**

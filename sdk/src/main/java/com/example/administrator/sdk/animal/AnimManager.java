@@ -8,7 +8,10 @@ import android.view.animation.AnimationUtils;
 
 
 
-public class AnimManager {
+/**
+ * @author Administrator
+ */
+class AnimManager {
     /**
      * Alpha and scaleX 动画
      * Alpha 0->1

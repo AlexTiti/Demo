@@ -31,9 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Horrarndoo on 2017/9/7.
- * <p>
- * 滚动view动画
+ * @author Administrator
  */
 public class MovingViewAnimator {
     /**
@@ -58,12 +56,12 @@ public class MovingViewAnimator {
     public static final int NONE_MOVE = -1;
 
     private AnimatorSet mAnimatorSet;
-    private View mView;
+    private final View mView;
 
     private boolean isRunning;
     private int currentLoop;
     private boolean infiniteRepetition = true;
-    private ArrayList<Float> pathDistances;
+    private final ArrayList<Float> pathDistances;
 
     private int loopCount = -1;
     private int movementType;
@@ -75,17 +73,20 @@ public class MovingViewAnimator {
     private MovingState currentState = MovingState.stop;
 
     public enum MovingState {
+        //停止
         stop,
+        //运动
         moving,
+        //暂停
         pause
     }
 
-    private Animator.AnimatorListener animatorListener = new AnimatorListenerAdapter() {
+    private final Animator.AnimatorListener animatorListener = new AnimatorListenerAdapter() {
         @Override
         public void onAnimationEnd(final Animator animation) {
-            //super.onAnimationEnd(animation);
-            //运行在主线程
+
             mView.post((new Runnable() {
+                @Override
                 public void run() {
                     if (isRunning) {
                         if (infiniteRepetition) {
@@ -149,6 +150,9 @@ public class MovingViewAnimator {
                         createDiagonalAnimator(0, offsetWidth, 0, offsetHeight),
                         createHorizontalAnimator(offsetWidth, 0),
                         createVerticalAnimator(offsetHeight, 0));
+                break;
+            default:
+                break;
         }
 
         if (mAnimatorSet != null) {
@@ -195,11 +199,12 @@ public class MovingViewAnimator {
     }
 
     public void start() {
-        //Log.e("tag", "start.");
+
         if (movementType != NONE_MOVE) {
             isRunning = true;
-            if (!infiniteRepetition)
+            if (!infiniteRepetition) {
                 currentLoop = loopCount;
+            }
             setListener();
             mAnimatorSet.start();
             currentState = MovingState.moving;
@@ -216,9 +221,10 @@ public class MovingViewAnimator {
 
     @TargetApi(19)
     public void pause() {
-        //Log.e("tag", "pause.");
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             return;
+        }
 
         if (mAnimatorSet.isStarted()) {
             mAnimatorSet.pause();
@@ -228,9 +234,10 @@ public class MovingViewAnimator {
 
     @TargetApi(19)
     public void resume() {
-        //Log.e("tag", "resume.");
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             return;
+        }
 
         if (mAnimatorSet.isPaused()) {
             mAnimatorSet.resume();
@@ -239,7 +246,7 @@ public class MovingViewAnimator {
     }
 
     public void stop() {
-        //Log.e("tag", "stop.");
+
         isRunning = false;
         mAnimatorSet.removeListener(animatorListener);
         mAnimatorSet.end();
@@ -254,9 +261,9 @@ public class MovingViewAnimator {
      *                   repetition > 0 循环repetition次
      */
     public void setRepetition(int repetition) {
-        if (repetition < 0)
+        if (repetition < 0) {
             infiniteRepetition = true;
-        else {
+        } else {
             loopCount = repetition;
             currentLoop = loopCount;
             infiniteRepetition = false;
@@ -354,7 +361,7 @@ public class MovingViewAnimator {
      */
     private ObjectAnimator createDiagonalAnimator(float startW, float endW, float startH, float
             endH) {
-        float diagonal = Pythagoras(Math.abs(startW - endW), Math.abs(startH - endH));
+        float diagonal = pythagoras(Math.abs(startW - endW), Math.abs(startH - endH));
         pathDistances.add(diagonal);
         PropertyValuesHolder pvhX = createPropertyValuesHolder("scrollX", startW, endW);
         PropertyValuesHolder pvhY = createPropertyValuesHolder("scrollY", startH, endH);
@@ -370,7 +377,7 @@ public class MovingViewAnimator {
         return PropertyValuesHolder.ofInt(prop, (int) startValue, (int) endValue);
     }
 
-    private static float Pythagoras(float a, float b) {
+    private static float pythagoras(float a, float b) {
         return (float) Math.sqrt((a * a) + (b * b));
     }
 
@@ -379,7 +386,7 @@ public class MovingViewAnimator {
      */
     public class Builder {
 
-        private ArrayList<Animator> mList;
+        private final ArrayList<Animator> mList;
 
         private Builder() {
             mList = new ArrayList<>();

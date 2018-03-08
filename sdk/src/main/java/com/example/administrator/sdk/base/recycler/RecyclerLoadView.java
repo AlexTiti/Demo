@@ -1,4 +1,4 @@
-package com.example.administrator.sdk.base.recycler_base;
+package com.example.administrator.sdk.base.recycler;
 
 import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.example.administrator.sdk.R;

@@ -1,7 +1,5 @@
 package com.example.administrator.sdk.base.mvp;
 
-import io.reactivex.Observable;
-
 /**
  * <pre>
  *

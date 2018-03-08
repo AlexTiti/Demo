@@ -15,9 +15,11 @@ import java.lang.reflect.Field;
 
 
 /**
- * Created by Horrarndoo on 2017/8/31.
+ *
+
  * <p>
  * StatusBar工具类
+ * @author Administrator
  */
 public class StatusBarUtils {
 
@@ -44,15 +46,18 @@ public class StatusBarUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window win = activity.getWindow();
             View decorView = win.getDecorView();
-            win.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//沉浸式状态栏(4.4-5.0透明，5.0以上半透明)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//android5.0以上设置透明效果
-                win.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//清除flag，为了android5.0以上也全透明效果
+            //沉浸式状态栏(4.4-5.0透明，5.0以上半透明)
+            win.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                //android5.0以上设置透明效果
+                win.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                //清除flag，为了android5.0以上也全透明效果
                 //让应用的主体内容占用系统状态栏的空间
                 int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
                 decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | option);
                 win.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                win.setStatusBarColor(color);//设置状态栏背景色
+                win.setStatusBarColor(color);
             }
         }
     }
@@ -90,10 +95,10 @@ public class StatusBarUtils {
      * @return
      */
     public static int getStatusBarHeight(Context context) {
-        Class<?> c = null;
-        Object obj = null;
-        Field field = null;
-        int x = 0, statusBarHeight = 0;
+        Class<?> c;
+        Object obj;
+        Field field;
+        int x, statusBarHeight = 0;
         try {
             c = Class.forName("com.android.internal.R$dimen");
             obj = c.newInstance();

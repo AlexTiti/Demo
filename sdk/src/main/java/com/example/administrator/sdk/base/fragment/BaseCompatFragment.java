@@ -6,11 +6,9 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 
 import com.example.administrator.sdk.manger.GlobalApplication;
 import com.example.administrator.sdk.utils.AppUtils;
@@ -21,6 +19,9 @@ import me.yokeyword.fragmentation.SupportFragment;
 
 
 
+/**
+ * @author Administrator
+ */
 public abstract class BaseCompatFragment extends SupportFragment {
 
     protected String TAG;
@@ -65,16 +66,12 @@ public abstract class BaseCompatFragment extends SupportFragment {
         }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 
+    /**
+     * 获取xml文件
+     * @return
+     */
     @LayoutRes
     public abstract int getLayoutId();
 
@@ -89,7 +86,9 @@ public abstract class BaseCompatFragment extends SupportFragment {
     }
 
     /**
-     * 初始化UI
+     *  初始化UI
+     * @param view  onCreateView()
+     * @param savedInstanceState Bundle
      */
     public abstract void initUI(View view, @Nullable Bundle savedInstanceState);
 

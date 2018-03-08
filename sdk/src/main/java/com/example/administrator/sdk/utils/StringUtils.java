@@ -2,12 +2,15 @@ package com.example.administrator.sdk.utils;
 
 import android.text.TextUtils;
 
+import com.example.administrator.sdk.content.Constent;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by Horrarndoo on 2017/4/5.
+ *
  * 字符串工具类
+ * @author Administrator
  */
 public class StringUtils {
     /**
@@ -62,11 +65,11 @@ public class StringUtils {
             return false;
         }
 
-        if (phoneNumber.length() < 5) {
+        if (phoneNumber.length() < Constent.NUMBER_FIVE) {
             return false;
         }
 
-        if (TextUtils.equals(areaCode, "+86") || TextUtils.equals(areaCode, "86")) {
+        if (TextUtils.equals(areaCode, Constent.NUMBER_86) || TextUtils.equals(areaCode,  Constent.NUMBER_86)) {
             return isPhoneNumberValid(phoneNumber);
         }
 
@@ -93,7 +96,7 @@ public class StringUtils {
             return false;
         }
 
-        if (phoneNumber.length() < 7) {
+        if (phoneNumber.length() < Constent.NUMBER_SEVEN) {
             return false;
         }
 

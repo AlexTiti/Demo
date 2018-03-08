@@ -23,16 +23,13 @@ import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.AttributeSet;
-import android.widget.ImageView;
-
 import com.example.administrator.sdk.R;
 
+
 /**
- * Created by Horrarndoo on 2017/9/7.
- * <p>
- * 自定义可以背景滚动的ImageView
+ * @author Administrator
  */
-public class MovingImageView extends ImageView {
+public class MovingImageView extends android.support.v7.widget.AppCompatImageView {
 
     private float canvasWidth, canvasHeight;
     private float imageWidth, imageHeight;
@@ -54,7 +51,7 @@ public class MovingImageView extends ImageView {
     private int mSpeed;
     private long startDelay;
     private int mRepetitions;
-    private boolean loadOnCreate;//load完毕后是否移动
+    private boolean loadOnCreate;
 
     private MovingViewAnimator mAnimator;
 
@@ -120,8 +117,8 @@ public class MovingImageView extends ImageView {
      * 更新图片Size
      */
     private void updateImageSize() {
-        imageWidth = getDrawable().getIntrinsicWidth();//获取图片高度
-        imageHeight = getDrawable().getIntrinsicHeight();//获取图片宽度
+        imageWidth = getDrawable().getIntrinsicWidth();
+        imageHeight = getDrawable().getIntrinsicHeight();
     }
 
     /**
@@ -171,37 +168,43 @@ public class MovingImageView extends ImageView {
         float scale = 1f;
         float scaleByImage = Math.max(imageWidth / canvasWidth, imageHeight / canvasHeight);
         Matrix matrix = new Matrix();
-
-        if (offsetWidth == 0 && offsetHeight == 0) {//图片太小，无法动画，需要放大
+//图片太小，无法动画，需要放大
+        if (offsetWidth == 0 && offsetHeight == 0) {
             //画布宽度/图片宽度
             float sW = canvasWidth / imageWidth;
             //画布高度/图片高度
             float sH = canvasHeight / imageHeight;
 
             if (sW > sH) {
-                scale = Math.min(sW, maxRelativeSize);//限定最大缩放值
+                //限定最大缩放值
+                scale = Math.min(sW, maxRelativeSize);
                 matrix.setTranslate((canvasWidth - imageWidth * scale) / 2f, 0);
-                movementType = MovingViewAnimator.VERTICAL_MOVE;//垂直移动
+                movementType = MovingViewAnimator.VERTICAL_MOVE;
 
             } else if (sW < sH) {
-                scale = Math.min(sH, maxRelativeSize);//限定最大缩放值
+                //限定最大缩放值
+                scale = Math.min(sH, maxRelativeSize);
                 matrix.setTranslate(0, (canvasHeight - imageHeight * scale) / 2f);
-                movementType = MovingViewAnimator.HORIZONTAL_MOVE;//水平移动
+                movementType = MovingViewAnimator.HORIZONTAL_MOVE;
 
             } else {
-                scale = Math.max(sW, maxRelativeSize);//限定最大缩放值
+                scale = Math.max(sW, maxRelativeSize);
+                //对角线移动
                 movementType = (scale == sW) ? MovingViewAnimator.NONE_MOVE :
-                        MovingViewAnimator.DIAGONAL_MOVE;//对角线移动
+                        MovingViewAnimator.DIAGONAL_MOVE;
             }
-        } else if (offsetWidth == 0) {//宽度太小，无法执行水平动画，放大宽度
+            //宽度太小，无法执行水平动画，放大宽度
+        } else if (offsetWidth == 0) {
             scale = canvasWidth / imageWidth;
             movementType = MovingViewAnimator.VERTICAL_MOVE;
 
-        } else if (offsetHeight == 0) {//高度太小，无法执行垂直动画，放大高度
-            scale = canvasHeight / imageHeight;//求出画布高度和图片高度的比值用于确定画布起始坐标
+        } else if (offsetHeight == 0) {
+            //求出画布高度和图片高度的比值用于确定画布起始坐标
+            scale = canvasHeight / imageHeight;
             movementType = MovingViewAnimator.HORIZONTAL_MOVE;
 
-        } else if (scaleByImage > maxRelativeSize) {//图片太大，根据最大比值设定图片缩放值
+        } else if (scaleByImage > maxRelativeSize) {
+            //图片太大，根据最大比值设定图片缩放值
             scale = maxRelativeSize / scaleByImage;
             if (imageWidth * scale < canvasWidth || imageHeight * scale < canvasHeight) {
                 scale = Math.max(canvasWidth / imageWidth, canvasHeight / imageHeight);

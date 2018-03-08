@@ -8,8 +8,9 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
 /**
- * Created by Horrarndoo on 2017/9/12.
- * <p>
+ *
+ *
+ * @author Administrator
  */
 public class TrustManager {
 

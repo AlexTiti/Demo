@@ -10,6 +10,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 
+import com.example.administrator.sdk.content.Constent;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -19,10 +21,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+
 /**
- * Created by Horrarndoo on 2017/8/31.
- * <p>
- * 读取文件工具类
+ * @author Administrator
  */
 public class FileUtils {
     private static final String TAG = "FileUtils";
@@ -39,8 +40,8 @@ public class FileUtils {
         if (src == null || src.length <= 0) {
             return null;
         }
-        for (int i = 0; i < src.length; i++) {
-            int v = src[i] & 0xFF;
+        for (byte aSrc : src) {
+            int v = aSrc & 0xFF;
             String hv = Integer.toHexString(v);
             if (hv.length() < 2) {
                 stringBuilder.append(0);
@@ -53,8 +54,7 @@ public class FileUtils {
     /**
      * 根据文件名称和路径，获取sd卡中的文件，以File形式返回byte
      */
-    public static File getFile(String fileName, String folder)
-            throws IOException {
+    public static File getFile(String fileName, String folder) {
         String state = Environment.getExternalStorageState();
         if (state.equals(Environment.MEDIA_MOUNTED)) {
             File pathFile = new File(Environment.getExternalStorageDirectory()
@@ -77,7 +77,7 @@ public class FileUtils {
 
         File targetFile = getFile(fileName, folder);
 
-        if (!targetFile.exists()) {
+        if (!(targetFile != null ? targetFile.exists() : false)) {
             return false;
         } else {
             return true;
@@ -143,12 +143,12 @@ public class FileUtils {
             outbuff = new BufferedOutputStream(out);
 
             byte[] b = new byte[1024 * 5];
-            int len = 0;
+            int len;
             while ((len = inbuff.read(b)) != -1) {
                 outbuff.write(b, 0, len);
             }
             outbuff.flush();
-        } catch (Exception ex) {
+        } catch (Exception ignored) {
         } finally {
             try {
                 if (inbuff != null) {
@@ -163,7 +163,7 @@ public class FileUtils {
                 if (input != null) {
                     input.close();
                 }
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
 
             }
         }
@@ -186,20 +186,22 @@ public class FileUtils {
                 if (!appDir.exists()) {
                     appDir.mkdir();
                 }
-                String saveFileName = "yizhi_pic";
-                if (fileName.contains(".png") || fileName.contains(".gif")) {
+                String saveFileName;
+                if (fileName.contains(Constent.IMAGE_PNG) || fileName.contains(Constent.IMAGE_GIF)) {
                     String fileFormat = fileName.substring(fileName.lastIndexOf("."));
-                    saveFileName = MD5Utils.getMD5("yizhi_pic" + fileName) + fileFormat;
+                    saveFileName = MD5Utils.getMD5(Constent.APP_FILE_NAME + fileName) + fileFormat;
                 } else {
-                    saveFileName = MD5Utils.getMD5("yizhi_pic" + fileName) + ".png";
+                    saveFileName = MD5Utils.getMD5(Constent.APP_FILE_NAME  + fileName) + Constent.IMAGE_PNG;
                 }
-                saveFileName = saveFileName.substring(20);//取前20位作为SaveName
+                //取前20位作为SaveName
+                saveFileName = saveFileName.substring(20);
                 File savefile = new File(appDir, saveFileName);
                 try {
                     InputStream is = new FileInputStream(file);
                     FileOutputStream fos = new FileOutputStream(savefile);
-                    byte[] buffer = new byte[1024 * 1024];//1M缓冲区
-                    int count = 0;
+                    //1M缓冲区
+                    byte[] buffer = new byte[1024 * 1024];
+                    int count;
                     while ((count = is.read(buffer)) > 0) {
                         fos.write(buffer, 0, count);
                     }
@@ -241,7 +243,8 @@ public class FileUtils {
                 //                SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
                 // 设置以当前时间格式为图片名称
                 String saveFileName = MD5Utils.getMD5("yizhi_pic" + fileName) + ".png";
-                saveFileName = saveFileName.substring(20);//取前20位作为SaveName
+                //取前20位作为SaveName
+                saveFileName = saveFileName.substring(20);
                 File file = new File(appDir, saveFileName);
                 try {
                     FileOutputStream fos = new FileOutputStream(file);
@@ -264,8 +267,13 @@ public class FileUtils {
     }
 
     public interface SaveResultCallback {
+        /**
+         * 成功
+         */
         void onSavedSuccess();
-
+        /**
+         * 失败
+         */
         void onSavedFailed();
     }
 }

@@ -13,13 +13,15 @@ import com.google.gson.JsonParser;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
+ * @author Administrator
  * SharedPreferences工具类封装
  */
 public class SpUtils {
 
     private static SharedPreferences sp;
-    private static String mPreferencesName = "share_preference_default";
+    private static final String mPreferencesName = "share_preference_default";
 
 
 
@@ -164,7 +166,7 @@ public class SpUtils {
      * @return list
      */
     public static <T> List<T> getDataList(String key, Class<T> cls) {
-        List<T> datalist = new ArrayList<T>();
+        List<T> datalist = new ArrayList<>();
         String strJson = SpUtils.getString(AppUtils.getContext(), key, null);
 
         if (null == strJson) {

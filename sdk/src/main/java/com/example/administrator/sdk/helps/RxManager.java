@@ -4,14 +4,14 @@ package com.example.administrator.sdk.helps;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
+
+
 /**
- * Created by Horrarndoo on 2017/9/12.
- * <p>
+ * @author Administrator
  * 用于管理Rxjava 注册订阅和取消订阅
  */
-
 public class RxManager {
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     public void register(Disposable d) {
         mCompositeDisposable.add(d);

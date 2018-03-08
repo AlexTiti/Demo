@@ -1,6 +1,8 @@
 package com.example.administrator.sdk.helps.okhttp;
 
 
+import android.support.annotation.NonNull;
+
 import com.example.administrator.sdk.utils.AppUtils;
 import com.example.administrator.sdk.utils.network.NetworkConnectionUtils;
 
@@ -12,15 +14,15 @@ import okhttp3.Response;
 
 import static com.example.administrator.sdk.helps.okhttp.HttpUtils.getUserAgent;
 
+
+
 /**
- * Created by Horrarndoo on 2017/9/18.
- * <p>
+ * @author Administrator
  * 有网络时的缓存拦截器
  */
-
 public class NetInterceptor implements Interceptor{
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         // 有网络时, 缓存1分钟, 最大保存时长为60s
         int maxAge = 60;
         Request request = chain.request();

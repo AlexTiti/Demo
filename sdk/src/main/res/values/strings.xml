@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_data">No data</string>
+    <string name="loading">Loading</string>
+    <string name="empty_network">Empty Network</string>
+</resources>

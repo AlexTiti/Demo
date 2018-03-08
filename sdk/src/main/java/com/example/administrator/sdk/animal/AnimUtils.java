@@ -29,6 +29,9 @@ import android.view.animation.Interpolator;
 
 import java.util.ArrayList;
 
+/**
+ * @author Administrator
+ */
 public class AnimUtils {
 
     private AnimUtils() { }
@@ -85,14 +88,16 @@ public class AnimUtils {
      *
      * @param <T> The class on which the Property is declared.
      **/
-    public static abstract class FloatProperty<T> extends Property<T, Float> {
-        public FloatProperty(String name) {
+    public static abstract class AbstractFloatProperty<T> extends Property<T, Float> {
+        public AbstractFloatProperty(String name) {
             super(Float.class, name);
         }
 
         /**
          * A type-specific override of the {@link #set(Object, Float)} that is faster when dealing
          * with fields of type <code>float</code>.
+         * @param object
+         * @param value
          */
         public abstract void setValue(T object, float value);
 
@@ -109,24 +114,25 @@ public class AnimUtils {
      * calls to a {@link #set(Object, Integer) set()} function that takes the primitive
      * <code>int</code> type and avoids autoboxing and other overhead associated with the
      * <code>Integer</code> class.
-     *
-     * @param <T> The class on which the Property is declared.
+     * @param <T>
      */
-    public static abstract class IntProperty<T> extends Property<T, Integer> {
+    public static abstract class AbstractIntProperty<T> extends Property<T, Integer> {
 
-        public IntProperty(String name) {
+        public AbstractIntProperty(String name) {
             super(Integer.class, name);
         }
 
         /**
          * A type-specific override of the {@link #set(Object, Integer)} that is faster when dealing
          * with fields of type <code>int</code>.
+         * @param object
+         * @param value
          */
         public abstract void setValue(T object, int value);
 
         @Override
         final public void set(T object, Integer value) {
-            setValue(object, value.intValue());
+            setValue(object, value);
         }
 
     }
@@ -141,7 +147,7 @@ public class AnimUtils {
     public static class NoPauseAnimator extends Animator {
         private final Animator mAnimator;
         private final ArrayMap<AnimatorListener, AnimatorListener> mListeners =
-                new ArrayMap<AnimatorListener, AnimatorListener>();
+                new ArrayMap<>();
 
         public NoPauseAnimator(Animator animator) {
             mAnimator = animator;
@@ -184,7 +190,7 @@ public class AnimUtils {
 
         @Override
         public ArrayList<AnimatorListener> getListeners() {
-            return new ArrayList<AnimatorListener>(mListeners.keySet());
+            return new ArrayList<>(mListeners.keySet());
         }
 
         @Override
@@ -287,7 +293,7 @@ public class AnimUtils {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static class TransitionListenerAdapter implements Transition.TransitionListener {
+    private static class TransitionListenerAdapter implements Transition.TransitionListener {
 
         @Override
         public void onTransitionStart(Transition transition) {

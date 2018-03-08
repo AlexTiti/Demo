@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.transition.TransitionInflater;
 import android.view.View;
 
@@ -36,7 +35,7 @@ public abstract class BaseFragmentMvp<V extends Contract.ViewMvp,P extends BaseP
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        present = creatPresent();
+        present = createPresent();
         present.onAttach((V)this);
     }
 
@@ -44,7 +43,11 @@ public abstract class BaseFragmentMvp<V extends Contract.ViewMvp,P extends BaseP
         return present;
     }
 
-    protected abstract P creatPresent();
+    /**
+     *  创建Present
+     * @return
+     */
+    protected abstract P createPresent();
 
     @Override
     public void onDestroy() {
@@ -132,8 +135,8 @@ public abstract class BaseFragmentMvp<V extends Contract.ViewMvp,P extends BaseP
     }
 
     @Override
-    public void setOnFragmentResult(int ResultCode, Bundle data) {
-        setFragmentResult(ResultCode, data);
+    public void setOnFragmentResult(int resultCode, Bundle data) {
+        setFragmentResult(resultCode, data);
     }
 
     @Override

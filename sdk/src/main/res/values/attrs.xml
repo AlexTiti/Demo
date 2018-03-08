@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="selectable_item_background_general_light_normal">@android:color/white</color>
-    <color name="selectable_item_background_general_light_pressed">#ffeeeeee</color>
-    <color name="selectable_item_background_general_light_accent">#ffcccccc</color>
     <declare-styleable name="MovingImageView">
         <attr name="miv_speed" format="integer"/>
         <attr name="miv_repetitions" format="integer"/>

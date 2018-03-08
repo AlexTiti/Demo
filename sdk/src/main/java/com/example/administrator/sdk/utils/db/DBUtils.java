@@ -24,7 +24,7 @@ public class DBUtils {
             "(id integer  primary key autoincrement,key text unique,is_read integer)";
 
     private static DBUtils sDBUtis;
-    private SQLiteDatabase mSQLiteDatabase;
+    private final SQLiteDatabase mSQLiteDatabase;
 
     private DBUtils(Context context) {
         mSQLiteDatabase = new DBHelper(context, DBConfig.DB_NAME + ".db")
@@ -53,7 +53,7 @@ public class DBUtils {
     public boolean insertRead(final String table, String key, int value) {
         Cursor cursor = mSQLiteDatabase.query(table, null, null, null, null, null, "id asc");
         //最多缓存200条
-        if (cursor.getCount() > 200 && cursor.moveToNext()) {
+        if (cursor.getCount() > DBConfig.MAX_DB_COUNT && cursor.moveToNext()) {
             mSQLiteDatabase.delete(table, "id=?", new String[]{String.valueOf(cursor.getInt
                     (cursor.getColumnIndex("id")))});
         }
@@ -77,7 +77,7 @@ public class DBUtils {
         boolean isRead = false;
         Cursor cursor = mSQLiteDatabase.query(table, null, "key=?", new String[]{key}, null,
                 null, null);
-        if (cursor.moveToNext() && (cursor.getInt(cursor.getColumnIndex("is_read")) == value)) {
+        if (cursor.moveToNext() && (cursor.getInt(cursor.getColumnIndex(DBConfig.IS_READED)) == value)) {
             isRead = true;
         }
         cursor.close();

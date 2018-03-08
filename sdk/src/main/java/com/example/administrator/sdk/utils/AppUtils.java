@@ -17,10 +17,9 @@ import com.example.administrator.sdk.manger.GlobalApplication;
 
 import java.io.File;
 
+
 /**
- * Created by Horrarndoo on 2017/8/31.
- * <p>
- * App工具类
+ * @author Administrator
  */
 public class AppUtils {
 
@@ -38,7 +37,7 @@ public class AppUtils {
      *
      * @return 全局handler
      */
-    public static Handler getHandler() {
+    private static Handler getHandler() {
         return GlobalApplication.getHandler();
     }
 
@@ -47,7 +46,7 @@ public class AppUtils {
      *
      * @return 主线程id
      */
-    public static int getMainThreadId() {
+    private static int getMainThreadId() {
         return GlobalApplication.getMainThreadId();
     }
 
@@ -63,7 +62,7 @@ public class AppUtils {
             if (versionName == null || versionName.length() <= 0) {
                 return "";
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         return versionName;
@@ -79,7 +78,7 @@ public class AppUtils {
             PackageManager pm = context.getPackageManager();
             PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
             versioncode = pi.versionCode;
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         return versioncode;
@@ -97,6 +96,7 @@ public class AppUtils {
     public static void openSoftInput(EditText et) {
         InputMethodManager inputMethodManager = (InputMethodManager) et.getContext()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
+        assert inputMethodManager != null;
         inputMethodManager.showSoftInput(et, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
@@ -106,6 +106,7 @@ public class AppUtils {
     public static void hideSoftInput(EditText et) {
         InputMethodManager inputMethodManager = (InputMethodManager) et.getContext()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
+        assert inputMethodManager != null;
         inputMethodManager.hideSoftInputFromWindow(et.getWindowToken(), InputMethodManager
                 .HIDE_NOT_ALWAYS);
     }
@@ -120,7 +121,8 @@ public class AppUtils {
         boolean sdCardExist = Environment.getExternalStorageState().equals(Environment
                 .MEDIA_MOUNTED);   //判断sd卡是否存在
         if (sdCardExist) {
-            sdDir = Environment.getExternalStorageDirectory();//获取跟目录
+            //获取跟目录
+            sdDir = Environment.getExternalStorageDirectory();
         }
         return sdDir;
     }
@@ -142,6 +144,7 @@ public class AppUtils {
         ClipboardManager cm = (ClipboardManager) context.getSystemService(Context
                 .CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("clip", text);
+        assert cm != null;
         cm.setPrimaryClip(clip);
     }
 
@@ -151,7 +154,7 @@ public class AppUtils {
      * @return true：当前线程运行在主线程
      * fasle：当前线程没有运行在主线程
      */
-    public static boolean isRunOnUIThread() {
+    private static boolean isRunOnUIThread() {
         // 获取当前线程id, 如果当前线程id和主线程id相同, 那么当前就是主线程
         int myTid = android.os.Process.myTid();
         if (myTid == getMainThreadId()) {

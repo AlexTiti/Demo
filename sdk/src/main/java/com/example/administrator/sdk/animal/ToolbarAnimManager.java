@@ -90,7 +90,7 @@ public class ToolbarAnimManager {
      * @param avm     执行动画的view
      */
     public static void animMenu(Context context, @NonNull ActionMenuView avm) {
-        AnimManager.animAlphaAndScale(context, avm, 500, 200); // filter
-        AnimManager.animAlphaAndScale(context, avm, 700, 200); // overflow
+        AnimManager.animAlphaAndScale(context, avm, 500, 200);
+        AnimManager.animAlphaAndScale(context, avm, 700, 200);
     }
 }

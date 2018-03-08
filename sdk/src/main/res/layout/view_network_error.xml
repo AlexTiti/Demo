@@ -16,6 +16,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         android:layout_marginTop="5dp"
-        android:text="Empty Network"
+        android:text="@string/empty_network"
         />
 </LinearLayout>

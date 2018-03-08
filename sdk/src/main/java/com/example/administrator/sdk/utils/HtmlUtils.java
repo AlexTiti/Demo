@@ -2,20 +2,26 @@ package com.example.administrator.sdk.utils;
 
 import java.util.List;
 
+
 /**
- * <p>
- * Html工具类
+ * @author Administrator
  */
 public class HtmlUtils {
 
-    //css样式,隐藏header
+    /**
+     * css样式,隐藏header
+     */
     private static final String HIDE_HEADER_STYLE = "<style>div.headline{display:none;}</style>";
 
-    //css style tag,需要格式化
+    /**
+     * css style tag,需要格式化
+     */
     private static final String NEEDED_FORMAT_CSS_TAG = "<link rel=\"stylesheet\" " +
             "type=\"text/css\" href=\"%s\"/>";
 
-    // js script tag,需要格式化
+    /**
+     * js script tag,需要格式化
+     */
     private static final String NEEDED_FORMAT_JS_TAG = "<script src=\"%s\"></script>";
 
     public static final String MIME_TYPE = "text/html; charset=utf-8";

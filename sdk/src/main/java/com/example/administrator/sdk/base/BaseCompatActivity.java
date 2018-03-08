@@ -7,10 +7,8 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +19,6 @@ import com.example.administrator.sdk.manger.GlobalApplication;
 import com.example.administrator.sdk.R;
 import com.example.administrator.sdk.utils.AppUtils;
 import com.example.administrator.sdk.utils.StatusBarUtils;
-import com.example.administrator.sdk.widget.WaitProgressDialog;
 
 import butterknife.ButterKnife;
 import me.yokeyword.fragmentation.SupportActivity;
@@ -31,8 +28,7 @@ import me.yokeyword.fragmentation.SupportActivity;
  * @author Alex
  */
 public abstract class BaseCompatActivity extends SupportActivity {
-    protected GlobalApplication mApplication;
-    protected WaitProgressDialog mWaitProgressDialog;
+    public GlobalApplication mApplication;
     protected Context mContext;
     protected boolean isTransAnim;
 
@@ -62,6 +58,9 @@ public abstract class BaseCompatActivity extends SupportActivity {
         showLoading();
     }
 
+    /**
+     *  显示加载进度对话框
+     */
     protected abstract void showLoading();
 
     @Override
@@ -115,7 +114,7 @@ public abstract class BaseCompatActivity extends SupportActivity {
     protected void initData() {
         mContext = AppUtils.getContext();
         mApplication = (GlobalApplication) getApplication();
-        mWaitProgressDialog = new WaitProgressDialog(this);
+
         isTransAnim = true;
     }
 
@@ -137,24 +136,7 @@ public abstract class BaseCompatActivity extends SupportActivity {
      */
     protected abstract int getLayoutId();
 
-    /**
-     * 显示提示框
-     *
-     * @param msg 提示框内容字符串
-     */
-    protected void showProgressDialog(String msg) {
-        mWaitProgressDialog.setMessage(msg);
-        mWaitProgressDialog.show();
-    }
 
-    /**
-     * 隐藏提示框
-     */
-    protected void hideProgressDialog() {
-        if (mWaitProgressDialog != null) {
-            mWaitProgressDialog.dismiss();
-        }
-    }
 
     /**
      * [页面跳转]
@@ -246,6 +228,7 @@ public abstract class BaseCompatActivity extends SupportActivity {
         //点击空白位置 隐藏软键盘
         InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService
                 (INPUT_METHOD_SERVICE);
+        assert mInputMethodManager != null;
         return mInputMethodManager.hideSoftInputFromWindow(this
                 .getCurrentFocus().getWindowToken(), 0);
     }

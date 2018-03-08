@@ -5,40 +5,52 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 
+import com.example.administrator.sdk.content.Constent;
 import com.example.administrator.sdk.utils.StringUtils;
 
 import java.util.List;
 
 /**
- * Created by Horrarndoo on 2017/8/10.
- * <p>
- * 兼容Android 6.0以上手机连接wifi
+ * @author Administrator
  */
-
 public class WifiAutoConnectManager {
 
     private static final String TAG = WifiAutoConnectManager.class
             .getSimpleName();
 
-    WifiManager wifiManager;
+    final WifiManager wifiManager;
 
-    // 定义几种加密方式，一种是WEP，一种是WPA，还有没有密码的情况
+    /**
+     *  // 定义几种加密方式，一种是WEP，一种是WPA，还有没有密码的情况
+     */
     public enum WifiCipherType {
         WIFICIPHER_WEP, WIFICIPHER_WPA, WIFICIPHER_NOPASS, WIFICIPHER_INVALID
     }
 
-    // 构造函数
+    /**
+     *
+     * @param wifiManager
+     */
     public WifiAutoConnectManager(WifiManager wifiManager) {
         this.wifiManager = wifiManager;
     }
 
-    // 提供一个外部接口，传入要连接的无线网
+    /**
+     * 提供一个外部接口，传入要连接的无线网
+     * @param ssid
+     * @param password
+     * @param type
+     */
     public void connect(String ssid, String password, WifiCipherType type) {
         Thread thread = new Thread(new ConnectRunnable(ssid, password, type));
         thread.start();
     }
 
-    // 查看以前是否也配置过这个网络
+    /**
+     * 查看以前是否也配置过这个网络
+     * @param SSID
+     * @return
+     */
     private WifiConfiguration isExsits(String SSID) {
         List<WifiConfiguration> existingConfigs = wifiManager
                 .getConfiguredNetworks();
@@ -50,8 +62,8 @@ public class WifiAutoConnectManager {
         return null;
     }
 
-    private WifiConfiguration createWifiInfo(String SSID, String Password,
-                                             WifiCipherType Type) {
+    private WifiConfiguration createWifiInfo(String SSID, String password,
+                                             WifiCipherType type) {
         WifiConfiguration config = new WifiConfiguration();
         config.allowedAuthAlgorithms.clear();
         config.allowedGroupCiphers.clear();
@@ -59,20 +71,18 @@ public class WifiAutoConnectManager {
         config.allowedPairwiseCiphers.clear();
         config.allowedProtocols.clear();
         config.SSID = "\"" + SSID + "\"";
-        // config.SSID = SSID;
-        // nopass
-        if (Type == WifiCipherType.WIFICIPHER_NOPASS) {
-            // config.wepKeys[0] = "";
+        if (type == WifiCipherType.WIFICIPHER_NOPASS) {
+
             config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
-            // config.wepTxKeyIndex = 0;
+
         }
-        // wep
-        if (Type == WifiCipherType.WIFICIPHER_WEP) {
-            if (!StringUtils.isEmpty(Password)) {
-                if (isHexWepKey(Password)) {
-                    config.wepKeys[0] = Password;
+
+        if (type == WifiCipherType.WIFICIPHER_WEP) {
+            if (!StringUtils.isEmpty(password)) {
+                if (isHexWepKey(password)) {
+                    config.wepKeys[0] = password;
                 } else {
-                    config.wepKeys[0] = "\"" + Password + "\"";
+                    config.wepKeys[0] = "\"" + password + "\"";
                 }
             }
             config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
@@ -80,9 +90,8 @@ public class WifiAutoConnectManager {
             config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
             config.wepTxKeyIndex = 0;
         }
-        // wpa
-        if (Type == WifiCipherType.WIFICIPHER_WPA) {
-            config.preSharedKey = "\"" + Password + "\"";
+        if (type == WifiCipherType.WIFICIPHER_WPA) {
+            config.preSharedKey = "\"" + password + "\"";
             config.hiddenSSID = true;
             config.allowedAuthAlgorithms
                     .set(WifiConfiguration.AuthAlgorithm.OPEN);
@@ -90,8 +99,7 @@ public class WifiAutoConnectManager {
             config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
             config.allowedPairwiseCiphers
                     .set(WifiConfiguration.PairwiseCipher.TKIP);
-            // 此处需要修改否则不能自动重联
-            // config.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+
             config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
             config.allowedPairwiseCiphers
                     .set(WifiConfiguration.PairwiseCipher.CCMP);
@@ -101,16 +109,20 @@ public class WifiAutoConnectManager {
         return config;
     }
 
-    // 打开wifi功能
-    private boolean openWifi() {
-        boolean bRet = true;
+    /**
+     * 打开Wifi
+     * @return
+     */
+    private void openWifi() {
+
         if (!wifiManager.isWifiEnabled()) {
-            bRet = wifiManager.setWifiEnabled(true);
+            wifiManager.setWifiEnabled(true);
         }
-        return bRet;
     }
 
-    // 关闭WIFI
+    /**
+     * 关闭WIFI
+     */
     private void closeWifi() {
         if (wifiManager.isWifiEnabled()) {
             wifiManager.setWifiEnabled(false);
@@ -118,11 +130,11 @@ public class WifiAutoConnectManager {
     }
 
     class ConnectRunnable implements Runnable {
-        private String ssid;
+        private final String ssid;
 
-        private String password;
+        private final String password;
 
-        private WifiCipherType type;
+        private final WifiCipherType type;
 
         public ConnectRunnable(String ssid, String password, WifiCipherType type) {
             this.ssid = ssid;
@@ -141,7 +153,7 @@ public class WifiAutoConnectManager {
                     // 为了避免程序一直while循环，让它睡个100毫秒检测……
                     Thread.sleep(100);
 
-                } catch (InterruptedException ie) {
+                } catch (InterruptedException ignored) {
                 }
             }
             WifiConfiguration tempConfig = isExsits(ssid);
@@ -164,11 +176,8 @@ public class WifiAutoConnectManager {
     private static boolean isHexWepKey(String wepKey) {
         final int len = wepKey.length();
         // WEP-40, WEP-104, and some vendors using 256-bit WEP (WEP-232?)
-        if (len != 10 && len != 26 && len != 58) {
-            return false;
-        }
+        return !(len != Constent.WIFI_TEN && len != Constent.WIFI_TWENTY_SIX && len != Constent.WIFI_FIVE_EIGHT) && isHex(wepKey);
 
-        return isHex(wepKey);
     }
 
     private static boolean isHex(String key) {
@@ -183,12 +192,17 @@ public class WifiAutoConnectManager {
         return true;
     }
 
-    // 获取ssid的加密方式
+    /**
+     * 获取ssid的加密方式
+     * @param context
+     * @param ssid
+     * @return
+     */
     public static WifiCipherType getCipherType(Context context, String ssid) {
-        WifiManager wifiManager = (WifiManager) context
+        WifiManager wifiManager = (WifiManager) context.getApplicationContext()
                 .getSystemService(Context.WIFI_SERVICE);
 
-        List<ScanResult> list = wifiManager.getScanResults();
+        List<ScanResult> list = wifiManager != null ? wifiManager.getScanResults() : null;
 
         for (ScanResult scResult : list) {
 

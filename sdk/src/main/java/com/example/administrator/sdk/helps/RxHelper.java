@@ -13,9 +13,9 @@ import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+
 /**
- * Created by Horrarndoo on 2017/9/12.
- * <p>
+ * @author Administrator
  */
 public class RxHelper {
     /**

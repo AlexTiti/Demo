@@ -4,12 +4,12 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+
+
 /**
- * Created by Horrarndoo on 2017/9/1.
- * <p>
+ * @author Administrator
  * 资源工具类-加载资源文件
  */
-
 public class ResourcesUtils {
     /**
      * 获取strings.xml资源文件字符串
@@ -68,7 +68,7 @@ public class ResourcesUtils {
      * @return 资源文件对应像素值
      */
     public static int getDimen(int id) {
-        return AppUtils.getContext().getResources().getDimensionPixelSize(id);// 返回具体像素值
+        return AppUtils.getContext().getResources().getDimensionPixelSize(id);
     }
 
     /**

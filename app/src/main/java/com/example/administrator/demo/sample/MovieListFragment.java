@@ -10,8 +10,8 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.administrator.demo.R;
-import com.example.administrator.sdk.base.recycler_base.BaseRecyclerFrgMvp;
-import com.example.administrator.sdk.base.recycler_base.RecyclerMvpView;
+import com.example.administrator.sdk.base.recycler.BaseRecyclerFrgMvp;
+import com.example.administrator.sdk.base.recycler.RecyclerMvpView;
 import com.example.administrator.sdk.utils.ResourcesUtils;
 
 import butterknife.BindView;
@@ -40,10 +40,7 @@ public class MovieListFragment extends BaseRecyclerFrgMvp<MovieListFragment, Mov
         return fragment;
     }
 
-    @Override
-    protected MovieListPresent creatPresent() {
-        return new MovieListPresent();
-    }
+
 
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
@@ -103,9 +100,11 @@ public class MovieListFragment extends BaseRecyclerFrgMvp<MovieListFragment, Mov
     }
 
     @Override
-    public void shoeRefreshData(MovieBean movieBean) {
+    public void showRefreshData(MovieBean movieBean) {
 
     }
+
+
 
     @Override
     public void showRefreshError(String errorMessage) {
@@ -140,4 +139,8 @@ public class MovieListFragment extends BaseRecyclerFrgMvp<MovieListFragment, Mov
     public void loadFailed(String s) {
     }
 
+    @Override
+    protected MovieListPresent createPresent() {
+        return new MovieListPresent();
+    }
 }

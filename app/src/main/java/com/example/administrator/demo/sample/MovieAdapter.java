@@ -9,7 +9,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import com.example.administrator.demo.R;
-import com.example.administrator.sdk.base.recycler_base.BaseRecyclerViewAdapter;
+import com.example.administrator.sdk.base.recycler.BaseRecyclerViewAdapter;
 import com.example.administrator.sdk.utils.db.DBUtils;
 import com.example.administrator.sdk.utils.db.config.DBConfig;
 import com.example.administrator.sdk.utils.db.config.ItemState;

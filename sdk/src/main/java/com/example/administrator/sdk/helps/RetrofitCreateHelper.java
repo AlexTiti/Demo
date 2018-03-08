@@ -10,18 +10,17 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-/**
- * Created by Horrarndoo on 2017/9/7.
- * <p>
- */
 
+
+/**
+ * @author Administrator
+ */
 public class RetrofitCreateHelper {
     private static final int TIMEOUT_READ = 20;
     private static final int TIMEOUT_CONNECTION = 10;
-//    private static final HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor()
-//            .setLevel(HttpLoggingInterceptor.Level.BODY);
-    private static CacheInterceptor cacheInterceptor = new CacheInterceptor();
-    private static OkHttpClient okHttpClient = new OkHttpClient.Builder()
+
+    private static final CacheInterceptor cacheInterceptor = new CacheInterceptor();
+    private static final OkHttpClient okHttpClient = new OkHttpClient.Builder()
             //SSL证书
             .sslSocketFactory(TrustManager.getUnsafeOkHttpClient())
             .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
